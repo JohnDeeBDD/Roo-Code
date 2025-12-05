@@ -149,6 +149,13 @@ If you prefer to install the VSIX package manually:
     code --install-extension bin/roo-cline-<version>.vsix
     ```
 
+### Developer API: task markdown
+
+Extension consumers can generate markdown transcripts without going through the webview sandbox by calling
+`RooCodeAPI#getTaskMarkdown(taskId, options?)`. The API returns the same markdown used by the UI export/copy controls, and
+accepts an optional `blockId` to scope the output to a specific content block (tool use `id` or tool result `tool_use_id`).
+This command runs in the extension host so it can be used from VS Code commands or other extensions.
+
 ---
 
 We use [changesets](https://github.com/changesets/changesets) for versioning and publishing. Check our `CHANGELOG.md` for release notes.

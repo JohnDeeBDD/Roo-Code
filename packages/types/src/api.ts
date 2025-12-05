@@ -42,11 +42,16 @@ export interface RooCodeAPI extends EventEmitter<RooCodeAPIEvents> {
 	 * Returns the current task stack.
 	 * @returns An array of task IDs.
 	 */
-	getCurrentTaskStack(): string[]
-	/**
-	 * Clears the current task.
-	 */
-	clearCurrentTask(lastMessage?: string): Promise<void>
+        getCurrentTaskStack(): string[]
+        /**
+         * Generates markdown for a task's conversation history.
+         * If a blockId is provided, only the matching content block (tool_use id or tool_result tool_use_id) is rendered.
+         */
+        getTaskMarkdown(taskId: string, options?: { blockId?: string }): Promise<string>
+        /**
+         * Clears the current task.
+         */
+        clearCurrentTask(lastMessage?: string): Promise<void>
 	/**
 	 * Cancels the current task.
 	 */

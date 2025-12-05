@@ -24,6 +24,7 @@ import { IpcServer } from "@roo-code/ipc"
 import { Package } from "../shared/package"
 import { ClineProvider } from "../core/webview/ClineProvider"
 import { openClineInNewTab } from "../activate/registerCommands"
+import { buildConversationMarkdown } from "../shared/markdown/conversation"
 
 export class API extends EventEmitter<RooCodeEvents> implements RooCodeAPI {
 	private readonly outputChannel: vscode.OutputChannel
@@ -167,9 +168,14 @@ export class API extends EventEmitter<RooCodeEvents> implements RooCodeAPI {
 		}
 	}
 
-	public getCurrentTaskStack() {
-		return this.sidebarProvider.getCurrentTaskStack()
-	}
+        public getCurrentTaskStack() {
+                return this.sidebarProvider.getCurrentTaskStack()
+        }
+
+        public async getTaskMarkdown(taskId: string, options?: { blockId?: string }) {
+                const { apiConversationHistory } = await this.sidebarProvider.getTaskWithId(taskId)
+                return buildConversationMarkdown(apiConversationHistory, { blockId: options?.blockId })
+        }
 
 	public async clearCurrentTask(_lastMessage?: string) {
 		// Legacy finishSubTask removed; clear current by closing active task instance.
