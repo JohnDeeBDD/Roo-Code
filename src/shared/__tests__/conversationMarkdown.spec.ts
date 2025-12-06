@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest"
 import { Anthropic } from "@anthropic-ai/sdk"
 
-import { buildConversationMarkdown } from "../markdown/conversation"
+import { buildConversationMarkdown, type ExtendedMessageParam } from "../markdown/conversation"
 
-const conversationHistory: Anthropic.MessageParam[] = [
+const conversationHistory: ExtendedMessageParam[] = [
         {
                 role: "user",
                 content: [
@@ -19,7 +19,7 @@ const conversationHistory: Anthropic.MessageParam[] = [
                         {
                                 type: "reasoning",
                                 text: "Thinking through the request",
-                        } as any,
+                        },
                         {
                                 type: "tool_use",
                                 id: "tool-2",

@@ -8,6 +8,10 @@ export interface ReasoningBlock {
 
 export type ExtendedContentBlock = Anthropic.Messages.ContentBlockParam | ReasoningBlock
 
+export type ExtendedMessageParam = Omit<Anthropic.MessageParam, "content"> & {
+        content: string | ExtendedContentBlock[]
+}
+
 export type ConversationMarkdownOptions = {
         blockId?: string
 }
@@ -19,7 +23,7 @@ export type ConversationMarkdownOptions = {
  * (tool_use blocks match on `id`, tool_result blocks match on `tool_use_id`).
  */
 export function buildConversationMarkdown(
-        conversationHistory: Anthropic.MessageParam[],
+        conversationHistory: ExtendedMessageParam[],
         options?: ConversationMarkdownOptions,
 ): string {
         if (options?.blockId) {
@@ -83,7 +87,7 @@ export function formatContentBlockToMarkdown(block: ExtendedContentBlock): strin
         }
 }
 
-function filterConversationByBlockId(conversationHistory: Anthropic.MessageParam[], blockId: string) {
+function filterConversationByBlockId(conversationHistory: ExtendedMessageParam[], blockId: string) {
         for (let i = conversationHistory.length - 1; i >= 0; i--) {
                 const message = conversationHistory[i]
 
